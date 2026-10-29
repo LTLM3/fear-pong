@@ -1,5 +1,16 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080808"><title>FEAR PONG — TEAM 1</title><style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#080808;color:#fff;font-family:Arial,Helvetica,sans-serif;display:flex;flex-direction:column}main{width:min(100%,540px);margin:auto;padding:35px 20px 50px;text-align:center}h1{font-size:clamp(48px,12vw,75px);font-weight:900;font-style:italic;letter-spacing:-3px;color:#ff641c;line-height:1;margin:0 0 12px}h2{font-size:17px;letter-spacing:4px;margin:0 0 25px}.line{height:2px;background:#fff;margin:26px 0}.counter{color:#aaa;font-size:12px;letter-spacing:2px;margin-bottom:18px}.card{position:relative;border:2px solid #ff641c;min-height:290px;display:flex;flex-direction:column;justify-content:center;gap:22px;padding:48px 20px 28px;margin-bottom:22px;background:#14100e}.card h3{font-size:clamp(24px,7vw,35px);line-height:1.1;color:#ff641c;margin:0;font-weight:900}.card p{font-size:17px;line-height:1.55;margin:0}.round-reminder{position:absolute;top:11px;right:12px;left:12px;text-align:right;color:#929292;font-size:10px;line-height:1.35;letter-spacing:.25px;font-weight:600}.card.empty .round-reminder{display:none}.card.empty h3{color:#fff}.card.empty .curse-icon{display:none}.card.empty{align-items:center;justify-content:center;gap:12px}.card.empty h3,.card.empty p{text-align:center;width:100%}.curse-icon{width:72px;height:72px;margin:0 auto;color:#ff641c;display:block}.curse-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.read-aloud{color:#929292;font-size:12px;letter-spacing:1px;margin-top:0;font-weight:600}.card.empty .read-aloud{display:none}.card.mega{border-width:3px;background:#1b100c}.btn{width:100%;padding:19px 12px;font-weight:900;letter-spacing:2px;font-size:16px;cursor:pointer;border:2px solid #ff641c;background:#ff641c;color:#080808;margin-bottom:12px}.btn:disabled{opacity:.4;cursor:not-allowed}.secondary{background:transparent;color:#ff641c}#mega-draw{border-style:dashed}.back{display:inline-block;color:#aaa;text-decoration:none;margin-top:18px;font-size:13px}footer{padding:15px;text-align:center;color:#777;font-size:10px;letter-spacing:2px}.hint{color:#aaa;font-size:12px;line-height:1.5;margin:10px 0 20px}@media(prefers-reduced-motion:no-preference){.card.reveal{animation:pop .25s ease-out}@keyframes pop{from{opacity:.4;transform:scale(.98)}to{opacity:1;transform:scale(1)}}}
+/* Distinct full-screen Mega Curse cinematic */
+.mega-overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:rgba(5,0,0,.96);color:#ff641c;pointer-events:none;opacity:0;visibility:hidden}
+.mega-overlay.active{visibility:visible;animation:mega-screen 1.55s ease both}
+.mega-overlay .mega-skull{font-size:clamp(90px,28vw,170px);line-height:1;filter:drop-shadow(0 0 28px #ff641c)}
+.mega-overlay .mega-warning{font-size:clamp(22px,7vw,42px);font-weight:900;letter-spacing:5px;text-align:center}
+.mega-overlay.active .mega-skull{animation:mega-skull-in 1.2s ease both}
+.mega-overlay.active .mega-warning{animation:mega-warning-in 1.25s ease both}
+@keyframes mega-screen{0%{opacity:0}12%{opacity:1}72%{opacity:1}100%{opacity:0}}
+@keyframes mega-skull-in{0%{transform:scale(2.5) rotate(-12deg);opacity:0}25%{transform:scale(.85) rotate(5deg);opacity:1}42%{transform:scale(1.15)}65%,100%{transform:scale(1)}}
+@keyframes mega-warning-in{0%,25%{opacity:0;transform:translateY(25px)}45%,85%{opacity:1;transform:translateY(0)}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.mega-overlay.active,.mega-overlay.active .mega-skull,.mega-overlay.active .mega-warning{animation:none!important}}
 /* Short, accessible reveal animation; no external libraries. */
 .card{overflow:hidden;isolation:isolate;transform-origin:center center}
 .card::after{content:"";position:absolute;inset:-70%;pointer-events:none;opacity:0;background:linear-gradient(105deg,transparent 42%,rgba(255,100,28,.19) 50%,transparent 58%);transform:translateX(-75%) rotate(8deg);z-index:-1}
@@ -17,7 +28,7 @@
 @keyframes mega-icon{0%{opacity:0;transform:scale(.2) rotate(-25deg)}55%{opacity:1;transform:scale(1.3) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
 @keyframes curse-sweep{0%{opacity:0;transform:translateX(-75%) rotate(8deg)}30%{opacity:1}100%{opacity:0;transform:translateX(75%) rotate(8deg)}}
 @media(prefers-reduced-motion:reduce){.card.is-drawing,.card.curse-reveal,.card.mega.curse-reveal,.card.curse-reveal .curse-icon,.card.mega.curse-reveal .curse-icon,.card.curse-reveal::after{animation:none!important;filter:none!important;transform:none!important}.card.is-drawing .curse-icon,.card.is-drawing h3,.card.is-drawing p,.card.is-drawing .read-aloud{opacity:1;filter:none}}
-</style></head><body><main><h1>FEAR PONG</h1><div class="line"></div><h2>TEAM 1</h2><div class="counter" id="counter" aria-live="polite"></div><section class="card empty" id="card" aria-live="polite"><div class="round-reminder">[Draw curses at the end of each round]</div><div class="curse-icon" id="curse-icon" aria-hidden="true"></div><h3 id="name">YOUR FATE AWAITS</h3><p id="description">Only draw a curse at the end of the round.</p><div class="read-aloud" id="read-aloud">[Read out loud]</div></section><button class="btn" id="draw">DRAW CURSE</button><button class="btn secondary" id="mega-draw">☠ MEGA CURSE DRAW</button><p class="hint">If a curse cannot be applied, draw again. Every drawn card stays discarded.</p><button class="btn secondary" id="reset">RESHUFFLE / RESET DECK</button><a class="back" href="../">← SELECT ANOTHER TEAM</a></main><footer>THE HAUNTING OF HIGH STREET</footer><script>
+</style></head><body><main><h1>FEAR PONG</h1><div class="line"></div><h2>TEAM 1</h2><div class="counter" id="counter" aria-live="polite"></div><section class="card empty" id="card" aria-live="polite"><div class="round-reminder">[Draw curses at the end of each round]</div><div class="curse-icon" id="curse-icon" aria-hidden="true"></div><h3 id="name">YOUR FATE AWAITS</h3><p id="description">Only draw a curse at the end of the round.</p><div class="read-aloud" id="read-aloud">[Read out loud]</div></section><div class="mega-overlay" id="mega-overlay" aria-hidden="true"><div class="mega-skull">☠</div><div class="mega-warning">MEGA CURSE</div></div><button class="btn" id="draw">DRAW CURSE</button><button class="btn secondary" id="mega-draw">☠ MEGA CURSE DRAW</button><p class="hint">If a curse cannot be applied, draw again. Every drawn card stays discarded.</p><button class="btn secondary" id="reset">RESHUFFLE / RESET DECK</button><a class="back" href="../">← SELECT ANOTHER TEAM</a></main><footer>THE HAUNTING OF HIGH STREET</footer><script>
 'use strict';
 const curses=[
 ["DEAD EYE","Every player on your team must take their next shot with their eyes closed."],
@@ -40,30 +51,40 @@ function showIcon(index){iconEl.innerHTML=index===null?'':`<svg viewBox="0 0 24 
 const key='fear-pong-v4-team-1';
 const counter=document.getElementById('counter'),card=document.getElementById('card'),nameEl=document.getElementById('name'),desc=document.getElementById('description'),drawBtn=document.getElementById('draw');
 function shuffle(){const a=curses.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function fresh(){return {order:shuffle(),position:0,last:null,mega:null};}
+function fresh(){return {order:shuffle(),position:0,last:null,mega:null,megaUsed:false};}
 function valid(s){return s&&Array.isArray(s.order)&&s.order.length===curses.length&&new Set(s.order).size===curses.length&&s.order.every(x=>Number.isInteger(x)&&x>=0&&x<curses.length)&&Number.isInteger(s.position)&&s.position>=0&&s.position<=curses.length&&(s.last===null||(Number.isInteger(s.last)&&s.last>=0&&s.last<curses.length));}
-let state;try{state=JSON.parse(localStorage.getItem(key));}catch(e){}if(!valid(state)){state=fresh();save();}if(state.mega===undefined)state.mega=null;
+let state;try{state=JSON.parse(localStorage.getItem(key));}catch(e){}if(!valid(state)){state=fresh();save();}if(state.mega===undefined)state.mega=null;if(state.megaUsed===undefined)state.megaUsed=state.mega!==null;
 function save(){try{localStorage.setItem(key,JSON.stringify(state));}catch(e){}}
-function render(){const remaining=curses.length-state.position;counter.textContent=remaining+' OF '+curses.length+' CURSES REMAINING';drawBtn.disabled=remaining===0;drawBtn.textContent=remaining?'DRAW '+(state.position?'NEXT ':'')+'CURSE':'DECK EMPTY';card.classList.remove('reveal');card.classList.toggle('mega',state.mega!==null);showIcon(state.mega!==null?8+state.mega:state.last);if(state.mega!==null){const c=megaCurses[state.mega];nameEl.textContent=c[0];desc.textContent=c[1];card.classList.remove('empty');}else if(state.last!==null){const c=curses[state.last];nameEl.textContent=c[0];desc.textContent=c[1];card.classList.remove('empty');}else if(!remaining){nameEl.textContent='DECK EMPTY';desc.textContent='All eight curses have been drawn. Reset for a new game.';card.classList.add('empty');}else{nameEl.textContent='YOUR FATE AWAITS';desc.textContent='Only draw a curse at the end of the round.';card.classList.add('empty');}}
+function render(){const remaining=curses.length-state.position;counter.textContent=remaining+' OF '+curses.length+' CURSES REMAINING';drawBtn.disabled=remaining===0;megaBtn.disabled=!!state.megaUsed;megaBtn.textContent=state.megaUsed?'MEGA CURSE USED — RESET TO REPLAY':'☠ MEGA CURSE DRAW';drawBtn.textContent=remaining?'DRAW '+(state.position?'NEXT ':'')+'CURSE':'DECK EMPTY';card.classList.remove('reveal');card.classList.toggle('mega',state.mega!==null);showIcon(state.mega!==null?8+state.mega:state.last);if(state.mega!==null){const c=megaCurses[state.mega];nameEl.textContent=c[0];desc.textContent=c[1];card.classList.remove('empty');}else if(state.last!==null){const c=curses[state.last];nameEl.textContent=c[0];desc.textContent=c[1];card.classList.remove('empty');}else if(!remaining){nameEl.textContent='DECK EMPTY';desc.textContent='All eight curses have been drawn. Reset for a new game.';card.classList.add('empty');}else{nameEl.textContent='YOUR FATE AWAITS';desc.textContent='Only draw a curse at the end of the round.';card.classList.add('empty');}}
 const megaBtn=document.getElementById('mega-draw');
+const megaOverlay=document.getElementById('mega-overlay');
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 let drawing=false;
-function animateDraw(action){
+function animateDraw(action,isMega=false){
  if(drawing)return;
  drawing=true;drawBtn.disabled=true;megaBtn.disabled=true;
  card.classList.remove('curse-reveal','is-drawing');
- if(reducedMotion.matches){action();render();drawing=false;megaBtn.disabled=false;return;}
+ if(reducedMotion.matches){action();render();drawing=false;return;}
  void card.offsetWidth;
- card.classList.add('is-drawing');
- setTimeout(()=>{
-  action();render();
-  card.classList.remove('is-drawing');
-  void card.offsetWidth;
-  card.classList.add('curse-reveal');
-  drawing=false;megaBtn.disabled=false;
- },390);
+ if(isMega){
+  megaOverlay.classList.remove('active');void megaOverlay.offsetWidth;
+  megaOverlay.classList.add('active');
+  setTimeout(()=>{
+   action();render();card.classList.add('curse-reveal');
+  },900);
+  setTimeout(()=>{megaOverlay.classList.remove('active');drawing=false;},1600);
+ }else{
+  card.classList.add('is-drawing');
+  setTimeout(()=>{
+   action();render();
+   card.classList.remove('is-drawing');
+   void card.offsetWidth;
+   card.classList.add('curse-reveal');
+   drawing=false;
+  },390);
+ }
 }
 drawBtn.addEventListener('click',()=>{if(state.position>=curses.length)return;animateDraw(()=>{state.last=state.order[state.position++];state.mega=null;save();});});
-megaBtn.addEventListener('click',()=>{animateDraw(()=>{state.mega=Math.floor(Math.random()*megaCurses.length);save();});});
-document.getElementById('reset').addEventListener('click',()=>{if(drawing)return;if(confirm('Reset this team’s deck? All 8 regular curses will be reshuffled and the Mega Curse display cleared.')){state=fresh();save();render();}});render();
+megaBtn.addEventListener('click',()=>{if(state.megaUsed)return;animateDraw(()=>{state.mega=Math.floor(Math.random()*megaCurses.length);state.megaUsed=true;save();},true);});
+document.getElementById('reset').addEventListener('click',()=>{if(drawing)return;if(confirm('Reset this team’s deck? All 8 regular curses will be reshuffled and the one Mega Curse draw restored.')){state=fresh();save();render();}});render();
 </script></body></html>
