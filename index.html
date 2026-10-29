@@ -1,92 +1,36 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101010">
   <title>FEAR PONG</title>
   <style>
+    :root { color-scheme: dark; --orange:#ff5a24; --black:#101010; --white:#f7f7f7; }
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #080808;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    main {
-      width: 100%;
-      max-width: 520px;
-      padding: 90px 24px 40px;
-      text-align: center;
-      flex: 1;
-    }
-
-    h1 {
-      margin: 0;
-      color: #ff641c;
-      font-size: clamp(64px, 15vw, 100px);
-      font-weight: 900;
-      font-style: italic;
-      letter-spacing: -5px;
-      line-height: 0.95;
-    }
-
-    .divider {
-      height: 2px;
-      background: #fff;
-      margin: 42px 0;
-    }
-
-    h2 {
-      font-size: 18px;
-      letter-spacing: 5px;
-      margin-bottom: 30px;
-    }
-
-    .team {
-      display: block;
-      padding: 23px;
-      margin: 16px 0;
-      border: 2px solid #ff641c;
-      color: #ff641c;
-      text-decoration: none;
-      font-size: 23px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      transition: 0.2s;
-    }
-
-    .team:hover, .team:active {
-      background: #ff641c;
-      color: #080808;
-    }
-
-    footer {
-      padding: 30px 16px;
-      color: #777;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-align: center;
-    }
+    body { margin:0; min-height:100vh; background:var(--black); color:var(--white); font-family:Arial,Helvetica,sans-serif; display:flex; flex-direction:column; }
+    main { width:min(92%,560px); margin:auto; text-align:center; padding:70px 0; }
+    .logo { display:block; width:clamp(145px,37vw,215px); height:auto; margin:0 auto 20px; }
+    h1 { color:var(--orange); font-size:clamp(3.3rem,12vw,6rem); font-weight:900; font-style:italic; letter-spacing:-.055em; margin:0 0 25px; line-height:1; }
+    .rule { width:80%; height:5px; background:var(--white); margin:0 auto 54px; }
+    h2 { font-size:1.15rem; letter-spacing:.18em; font-weight:800; margin:0 0 26px; }
+    .teams { display:grid; gap:18px; }
+    .team { display:block; border:3px solid var(--orange); color:var(--orange); text-decoration:none; padding:23px 12px; font-size:1.5rem; font-weight:900; font-style:italic; transition:background .2s,color .2s; }
+    .team:hover,.team:focus-visible { background:var(--orange); color:var(--black); }
+    footer { text-align:center; padding:24px 12px 32px; font-size:.72rem; letter-spacing:.2em; color:#666; font-weight:700; }
   </style>
 </head>
 <body>
   <main>
-    <h1>FEAR<br>PONG</h1>
-    <div class="divider"></div>
-
+    <img class="logo" src="fear-pong-skull.png" alt="Skull holding a ping pong ball in its mouth" width="215" height="250">
+    <h1>FEAR PONG</h1>
+    <div class="rule" aria-hidden="true"></div>
     <h2>SELECT YOUR TEAM</h2>
-
-    <a class="team" href="team1/">TEAM ONE</a>
-    <a class="team" href="team2/">TEAM TWO</a>
+    <nav class="teams" aria-label="Choose your team">
+      <a class="team" href="team1/">TEAM ONE</a>
+      <a class="team" href="team2/">TEAM TWO</a>
+    </nav>
   </main>
-
   <footer>THE HAUNTING OF HIGH STREET</footer>
 </body>
 </html>
