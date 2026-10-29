@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#140b17">
+  <title>FEAR PONG — The Curse Awaits</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: radial-gradient(circle at 50% 20%, #442033, #140b17 65%); color: #f7e9e9; padding: 24px; }
+    main { width: min(100%, 480px); text-align: center; }
+    .eyebrow { color: #e0a2a7; letter-spacing: .3em; font-size: .75rem; font-weight: 800; }
+    h1 { font-size: clamp(3.5rem, 13vw, 5.5rem); line-height: .95; margin: 20px 0; letter-spacing: -.06em; }
+    h1 span { color: #ff5268; }
+    p { color: #d2bec6; line-height: 1.6; }
+    .teams { display: grid; gap: 14px; margin: 34px 0 20px; }
+    a { display: block; padding: 20px; border: 1px solid #aa5264; border-radius: 12px; background: #351923; color: #fff; font-size: 1.1rem; font-weight: 800; letter-spacing: .08em; text-decoration: none; }
+    a:hover, a:focus-visible { background: #68263a; outline: 2px solid #ff8997; outline-offset: 2px; }
+    small { color: #bba5ad; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">THE HAUNTING OF HIGH STREET</div>
+    <h1>FEAR<br><span>PONG</span></h1>
+    <p>Three cursed cups per team. One shuffled deck of consequences. Choose your side.</p>
+    <nav class="teams" aria-label="Choose your team">
+      <a href="team1/">TEAM 1 — ENTER</a>
+      <a href="team2/">TEAM 2 — ENTER</a>
+    </nav>
+    <small>The curse decks are coming soon.</small>
+  </main>
+</body>
+</html>
